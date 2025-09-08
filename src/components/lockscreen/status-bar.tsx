@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from 'react';
 import { Wifi, Signal, BatteryFull, BatteryMedium, BatteryLow, BatteryWarning } from 'lucide-react';
 import type { LockScreenConfig } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -16,7 +17,14 @@ function BatteryIcon({ level }: { level: number }) {
 
 export function StatusBar({ config }: StatusBarProps) {
     const { os, statusBar } = config;
-    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const [time, setTime] = useState('');
+
+    useEffect(() => {
+        const updateTame = () => setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        updateTame();
+        const timer = setInterval(updateTame, 60000); // Update every minute
+        return () => clearInterval(timer);
+    }, []);
 
     if (os === 'android') {
         return (

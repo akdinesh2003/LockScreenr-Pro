@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction, MouseEvent } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { LockScreenConfig } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import { StatusBar } from './lockscreen/status-bar';
 import { Clock } from './lockscreen/clock';
 import { NotificationItem } from './lockscreen/notification-item';
 import { Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const deviceDimensions = {
   iphone: { width: 390, height: 844, radius: '40px' },
@@ -32,6 +33,21 @@ function PasscodeScreen({ correctPin, onUnlock }: { correctPin: string, onUnlock
     const [enteredPin, setEnteredPin] = useState('');
     const [isWrong, setIsWrong] = useState(false);
 
+    useEffect(() => {
+      if (enteredPin.length === 4) {
+          if (enteredPin === correctPin) {
+              onUnlock();
+              setEnteredPin('');
+          } else {
+              setIsWrong(true);
+              setTimeout(() => {
+                  setIsWrong(false);
+                  setEnteredPin('');
+              }, 500);
+          }
+      }
+    }, [enteredPin, correctPin, onUnlock]);
+
     const handleInput = (num: string) => {
         if (enteredPin.length < 4) {
             setEnteredPin(prev => prev + num);
@@ -40,19 +56,6 @@ function PasscodeScreen({ correctPin, onUnlock }: { correctPin: string, onUnlock
 
     const handleDelete = () => setEnteredPin(prev => prev.slice(0, -1));
     
-    if (enteredPin.length === 4) {
-        if (enteredPin === correctPin) {
-            onUnlock();
-            setEnteredPin('');
-        } else {
-            setIsWrong(true);
-            setTimeout(() => {
-                setIsWrong(false);
-                setEnteredPin('');
-            }, 500);
-        }
-    }
-
     return (
         <div className={cn("absolute inset-0 bg-black/50 backdrop-blur-xl z-30 flex flex-col items-center justify-center text-white", isWrong ? 'animate-shake' : '')}>
             <p className="mb-4">Enter Passcode</p>
@@ -108,7 +111,7 @@ export function LockScreenPreview({ config, setConfig }: LockScreenPreviewProps)
       {config.heatmapOverlay && (
         <Image
             src={config.heatmapOverlay}
-            layout="fill"
+            fill
             alt="Heatmap Overlay"
             className="absolute inset-0 z-20 opacity-70 pointer-events-none"
         />
