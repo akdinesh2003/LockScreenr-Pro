@@ -1,10 +1,8 @@
-# LockScreenr Pro 📱✨
+# LockScreenr Pro 
 
 **The Ultimate Customizable Lock Screen Simulator for UX Testing & Branding**
 
 LockScreenr Pro is a powerful, web-based tool designed for UX designers, developers, and marketers to create hyper-realistic, interactive lock screen simulations. Test your app's notification appearance, experiment with branding on different devices, and validate user experience flows with advanced AI-powered tools.
-
-![LockScreenr Pro Screenshot](https://picsum.photos/1200/600?data-ai-hint=interface%20screenshot)
 
 ---
 
@@ -94,7 +92,5 @@ To get a local copy up and running, follow these simple steps.
 
 ## ✍️ Author
 
-*   **Name**: [YOUR_NAME_HERE]
-*   **Portfolio/Link**: [YOUR_LINK_HERE]
+*   **Name**: AK DINESH   https://github.com/akdinesh2003
 
----
