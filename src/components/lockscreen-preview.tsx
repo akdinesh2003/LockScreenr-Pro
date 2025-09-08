@@ -19,8 +19,8 @@ const deviceDimensions = {
 };
 
 const osPaddings = {
-    ios: 'p-4',
-    android: 'p-4',
+    ios: 'p-6 pt-0',
+    android: 'p-6',
     wearos: 'p-4'
 }
 
@@ -126,13 +126,13 @@ export function LockScreenPreview({ config, setConfig }: LockScreenPreviewProps)
         
         <div className="flex-1" />
 
-        <div className={cn("px-4 md:px-6", {'flex flex-col items-center justify-center -mt-20': config.os === 'ios', 'flex flex-col items-start justify-center -mt-20': config.os === 'android'})}>
+        <div className={cn("px-4 md:px-6", {'flex flex-col items-center justify-center': config.os === 'ios', 'flex flex-col items-start justify-center': config.os === 'android'})}>
             <Clock os={config.os} font={config.font} />
         </div>
         
         <div className="flex-1" />
 
-        <div className={cn("flex flex-col space-y-2 mb-8 px-4 max-h-[50%] overflow-y-auto no-scrollbar", {'items-center': config.os !== 'android'})}>
+        <div className={cn("flex flex-col space-y-2 mb-8 px-4 max-h-[50%] overflow-y-auto no-scrollbar", {'items-center': config.os !== 'android', 'items-start': config.os === 'android'})}>
             {config.notifications.map(notif => (
                 <NotificationItem key={notif.id} notification={notif} os={config.os} privacyBlur={config.privacyBlur} setConfig={setConfig} />
             ))}
