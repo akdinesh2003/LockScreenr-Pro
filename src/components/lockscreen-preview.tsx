@@ -132,7 +132,7 @@ export function LockScreenPreview({ config, setConfig }: LockScreenPreviewProps)
         
         <div className="flex-1" />
 
-        <div className={cn("space-y-2 mb-8 px-2 max-h-[50%] overflow-y-auto no-scrollbar", {'flex flex-col items-center': config.os !== 'android'})}>
+        <div className={cn("flex flex-col space-y-2 mb-8 px-4 max-h-[50%] overflow-y-auto no-scrollbar", {'items-center': config.os !== 'android'})}>
             {config.notifications.map(notif => (
                 <NotificationItem key={notif.id} notification={notif} os={config.os} privacyBlur={config.privacyBlur} setConfig={setConfig} />
             ))}
