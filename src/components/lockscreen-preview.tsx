@@ -19,9 +19,9 @@ const deviceDimensions = {
 };
 
 const osPaddings = {
-    ios: 'p-0',
-    android: 'p-0',
-    wearos: 'p-0'
+    ios: 'p-4',
+    android: 'p-4',
+    wearos: 'p-4'
 }
 
 interface LockScreenPreviewProps {
@@ -126,7 +126,7 @@ export function LockScreenPreview({ config, setConfig }: LockScreenPreviewProps)
         
         <div className="flex-1" />
 
-        <div className={cn("px-4 md:px-6", {'flex flex-col items-center justify-center -mt-20': config.os === 'ios'})}>
+        <div className={cn("px-4 md:px-6", {'flex flex-col items-center justify-center -mt-20': config.os === 'ios', 'flex flex-col items-start justify-center -mt-20': config.os === 'android'})}>
             <Clock os={config.os} font={config.font} />
         </div>
         
