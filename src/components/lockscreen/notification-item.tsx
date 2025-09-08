@@ -26,7 +26,7 @@ export function NotificationItem({ notification, os, privacyBlur, setConfig }: N
 
   if (os === 'android') {
     return (
-        <div className={cn(commonClasses, "w-[90%] max-w-sm relative group")}>
+        <div className={cn(commonClasses, "w-full max-w-sm relative group")}>
             <AppIcon icon={notification.icon} color={notification.iconColor} />
             <div className="flex-1 text-sm text-white/80 overflow-hidden">
                 <div className="flex justify-between items-center">

@@ -20,9 +20,9 @@ export function Clock({ os, font }: ClockProps) {
 
     if (!time) {
         return (
-            <div className="text-center text-white/90">
+            <div className={cn("text-white/90", os === 'ios' ? "text-center" : "text-left")}>
                 <p className="text-lg font-medium">Loading...</p>
-                <h1 className="text-8xl font-bold" style={{ fontFamily: font }}>
+                <h1 className={cn("font-bold", os === 'ios' ? "text-8xl" : "text-7xl leading-tight")} style={{ fontFamily: font }}>
                     --:--
                 </h1>
             </div>
@@ -35,9 +35,9 @@ export function Clock({ os, font }: ClockProps) {
 
     if (os === 'android' || os === 'wearos') {
         return (
-            <div className="text-center text-white/90">
+            <div className="text-left text-white/90">
                 <h1 className="text-7xl font-bold leading-tight" style={{ fontFamily: font }}>
-                    {timeString.split(':')[0]}
+                    {timeString.split(':')[0]}:
                     <br/>
                     {timeString.split(':')[1]}
                 </h1>
