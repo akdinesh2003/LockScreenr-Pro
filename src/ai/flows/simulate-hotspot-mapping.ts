@@ -37,23 +37,6 @@ export async function simulateHotspotMapping(
   return simulateHotspotMappingFlow(input);
 }
 
-const simulateHotspotMappingPrompt = ai.definePrompt({
-  name: 'simulateHotspotMappingPrompt',
-  input: {schema: SimulateHotspotMappingInputSchema},
-  output: {schema: SimulateHotspotMappingOutputSchema},
-  prompt: `You are an AI that analyzes a lock screen image and generates a heatmap
-  overlaying the areas where a user's focus is most likely to be.
-
-  Given the following lock screen image, generate a heatmap that highlights areas
-  of interest, such as notification content, the clock, and common unlock areas. The heatmap should be returned as a data URI.
-
-  Image: {{media url=photoDataUri}}
-
-  Ensure the output is a data URI with MIME type and Base64 encoding.
-  Do not include any text or descriptions, only the data URI.
-  `,
-});
-
 const simulateHotspotMappingFlow = ai.defineFlow(
   {
     name: 'simulateHotspotMappingFlow',
@@ -61,7 +44,29 @@ const simulateHotspotMappingFlow = ai.defineFlow(
     outputSchema: SimulateHotspotMappingOutputSchema,
   },
   async input => {
-    const {output} = await simulateHotspotMappingPrompt(input);
-    return output!;
+    const {media} = await ai.generate({
+      model: 'googleai/gemini-2.5-flash-image-preview',
+      prompt: [
+        {media: {url: input.photoDataUri}},
+        {
+          text: `You are an AI that analyzes a lock screen image and generates a heatmap
+  overlaying the areas where a user's focus is most likely to be.
+
+  Given the lock screen image, generate a heatmap that highlights areas
+  of interest, such as notification content, the clock, and common unlock areas.
+  
+  Return only the generated image. Do not add any other text or commentary.`,
+        },
+      ],
+      config: {
+        responseModalities: ['IMAGE'],
+      },
+    });
+
+    if (!media || !media.url) {
+      throw new Error('Failed to generate heatmap');
+    }
+
+    return {heatmapDataUri: media.url};
   }
 );
