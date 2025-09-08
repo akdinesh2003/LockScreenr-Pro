@@ -10,12 +10,24 @@ interface ClockProps {
 }
 
 export function Clock({ os, font }: ClockProps) {
-    const [time, setTime] = useState(new Date());
+    const [time, setTime] = useState<Date | null>(null);
 
     useEffect(() => {
+        setTime(new Date());
         const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
+
+    if (!time) {
+        return (
+            <div className="text-center text-white/90">
+                <p className="text-lg font-medium">Loading...</p>
+                <h1 className="text-8xl font-bold" style={{ fontFamily: font }}>
+                    --:--
+                </h1>
+            </div>
+        );
+    }
 
     const timeString = time.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     const dateString = time.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
